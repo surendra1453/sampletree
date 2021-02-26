@@ -1,0 +1,24 @@
+--- 
+- 
+  become: true
+  connection: ssh
+  hosts: all
+  tasks: 
+    - 
+      loop: 
+        - nodejs
+        - php
+      name: "installing packages"
+      when: "ansible_os_family == 'RedHat'"
+      yum: 
+        name: "{{item}}"
+        state: present
+    - 
+      apt: 
+        name: "{{item}}"
+        state: present
+      loop: 
+        - nodejs
+        - php
+      name: "installing packages"
+      when: "ansible_os_family == 'Debian'"
